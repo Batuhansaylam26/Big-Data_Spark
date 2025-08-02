@@ -71,7 +71,7 @@ driver process called the SparkSession. The SparkSession instance is the way Spa
 user-defined manipulations across the cluster. There is a one-to-one correspondence between a
 SparkSession and a Spark Application. In Scala and Python, the variable is available as spark
 when you start the console. Let’s go ahead and look at the SparkSession in both Scala and/or
-Python.</p>
+Python.[1]</p>
 
 For scala:
 ```bash
@@ -93,3 +93,6 @@ Output:
 ```bash
 <pyspark.sql.session.SparkSession object at 0x7f3a969ac4a0>
 ```
+# References
+
+[1] https://raw.githubusercontent.com/rameshvunna/PySpark/master/Spark-The%20Definitive%20Guide.pdf
