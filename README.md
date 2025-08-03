@@ -73,6 +73,7 @@ SparkSession and a Spark Application. In Scala and Python, the variable is avail
 when you start the console. Let’s go ahead and look at the SparkSession in both Scala and/or
 Python.[1]</p>
 
+For scala, the SparkSession can be thought as REPL.</br>
 For scala:
 ```bash
 scala> spark
@@ -93,6 +94,47 @@ Output:
 ```bash
 <pyspark.sql.session.SparkSession object at 0x7f3a969ac4a0>
 ```
+
+# Dataframes
+
+The dataframes can be thought as a spreadsheet with named columns; however the spark dataframe can span thousands of computers whereas a spreedsheet sits on one computer in one specific location. </br>
+
+You can name the results of expressions using the **val** keyword. Named results, such as df here, are called values. Referencing a value does not re-compute it whereas **var** can be re-assigned.[2]</br>
+```scala
+val df = spark.range(1000).toDF("number")
+```
+Despite the scala, on python scripts, **''** can be used instead of **""**.</br>
+```python
+df = spark.range(1000).toDF("number")
+```
+# Partitions
+
+To allow every executor to perform work in parallel, Spark breaks up the data into chunks called
+partitions. A partition is a collection of rows that sit on one physical machine in your cluster. A
+DataFrame’s partitions represent how the data is physically distributed across the cluster of
+machines during execution. If you have one partition, Spark will have a parallelism of only one,
+even if you have thousands of executors. If you have many partitions but only one executor,
+Spark will still have a parallelism of only one because there is only one computation resource.[1]</p>
+
+# Transformations
+In Spark, the core data structures are immutable, meaning they cannot be changed after they’re
+created. This might seem like a strange concept at first: if you cannot change it, how are you
+supposed to use it? To “change” a DataFrame, you need to instruct Spark how you would like to
+modify it to do what you want. These instructions are called transformations.</p>
+Scala:
+```scala
+val  divisby2 = df.where("number % 2 = 0")
+divisby2.show()
+```
+Python:
+```python
+divisby2 = df.where("number % 2 = 0")
+divisby2.show()
+```
+
 # References
 
 [1] https://raw.githubusercontent.com/rameshvunna/PySpark/master/Spark-The%20Definitive%20Guide.pdf
+
+[2] https://docs.scala-lang.org/tour/basics.html
+
