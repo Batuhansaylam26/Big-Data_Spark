@@ -46,9 +46,11 @@ Hello, World!
 
 # Download Spark 
 
-First, the [location](https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3.tgz) has to be installed on the computer via the [bash script](./install_spark.sh).</br>
+First, the [location](https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3.tgz) has to be installed on the computer via the following code block.</br>
 ```bash
-bash install_spark.sh
+wget https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3.tgz
+
+tar -xf spark-4.0.0-bin-hadoop3.tgz
 ```
 and go to the folder.</br>
 ```bash
@@ -131,7 +133,22 @@ Python:
 divisby2 = df.where("number % 2 = 0")
 divisby2.show()
 ```
+Take note that these first lines don't produce anything.  This is due to the fact that we merely specified an abstract transformation, and Spark won't do anything with it until we call an action (like show()), which we will cover in a moment.</p>
+ The foundation of utilizing Spark to express your business logic is transformations.  Transformations can be divided into two categories: those that define narrow dependencies and those that define wide dependencies. </p>
 
+ ## Narrow Transformations
+Each input partition will contribute to only one output partition.</br>
+![Narrow Img](images/narrow.png)
+## Wide Transformations
+A wide dependency (or wide transformation) style transformation will have input partitions
+contributing to many output partitions. You will often hear this referred to as a shuffle whereby
+Spark will exchange partitions across the cluster.</p>
+![Wide Img](images/wide.png)
+
+With narrow transformations, Spark will
+automatically perform an operation called pipelining, meaning that if we specify multiple filters
+on DataFrames, they’ll all be performed in-memory. The same cannot be said for shuffles. When
+we perform a shuffle, Spark writes the results to disk.[1] </p>
 # References
 
 [1] https://raw.githubusercontent.com/rameshvunna/PySpark/master/Spark-The%20Definitive%20Guide.pdf
