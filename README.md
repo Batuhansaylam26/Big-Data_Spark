@@ -197,7 +197,7 @@ state. It’s very useful, especially for tuning and debugging</p>
 
 # Others
 
-- [End to End Example](./end-to-end_example/README.md)
+- [End to End Example](https://github.com/Batuhansaylam26/End-To-End_Example_Spark.git)
 
 
 
