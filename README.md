@@ -149,6 +149,65 @@ With narrow transformations, Spark will
 automatically perform an operation called pipelining, meaning that if we specify multiple filters
 on DataFrames, they’ll all be performed in-memory. The same cannot be said for shuffles. When
 we perform a shuffle, Spark writes the results to disk.[1] </p>
+
+
+Since shuffle optimization is a significant topic, you'll see a lot of discussion about it online. For the time being, though, you just need to know that there are two types of transformations.  As you can see now, transformations are just methods of defining various data manipulation sequences.  This brings up the subject of lazy evaluation.</p>
+
+
+
+
+## Lazy Evaluation
+
+-Lazy evaluation is a fundamental and powerful concept in Apache Spark. It's one of the main reasons Spark achieves high performance and efficiency. This means Spark doesn't execute a transformation immediately. Instead, it creates a logical execution plan, or Directed Acyclic Graph (DAG), that represents the sequence of transformations you define.
+
+### How It Works: Transformations and Actions
+
+The essence of lazy evaluation in Spark is based on the difference between transformations and actions.
+
+- **Transformations**: These are operations that create a new DataFrame from an existing DataFrame (or RDD/Dataset). Examples include filter(), select(), groupBy(), withColumn(), and join(). When you call a transformation, Spark simply records it in the execution plan. No data is processed or moved at this point.
+
+- **Actions**: These are operations that trigger the execution of the entire transformation chain. Actions cause Spark to actually perform computations and return a result. Examples include show(), count(), collect(), saveAsTextFile(), and take(). When an action is called, Spark examines the entire transformation DAG, optimizes it, and then executes the necessary tasks on the cluster.
+
+### Benefits of Lazy Evaluation
+
+By not executing transformations immediately, Spark gains several key advantages:
+
+- **Optimization**: Spark's Catalyst Optimizer and Tungsten Execution Engine can analyze the entire transformation chain and find the most efficient way to execute them. For example, if you filter data and then select several columns, Spark can apply the filtering and column selection operations in a single pass over the data to avoid redundant computations. This is called operator fusion.
+
+- **Resource Efficiency**: Because intermediate results are not persisted to memory or disk until an action is called, Spark can save storage and memory resources. It only calculates what is absolutely necessary to produce the final result.
+
+- **Error Tolerance**: Lazy evaluation makes it easier for Spark to recover from errors. Because Spark maintains a lineage graph of all transformations, it can recalculate portions of the RDD or DataFrame that are lost by rerunning the necessary steps from a reliable data source.
+
+- **Short-Circuiting**: Spark can "short-circuit" computations. For example, if you have a very large dataset and only want to see the first 10 rows with take(10), Spark will process only the portions necessary to retrieve those 10 rows, rather than processing the entire dataset.
+
+
+
+
+
+# Spark UI
+
+
+You can monitor the progress of a job through the Spark web UI. The Spark UI is available on
+port 4040 of the driver node. If you are running in local mode, this will be http://localhost:4040.
+The Spark UI displays information on the state of your Spark jobs, its environment, and cluster
+state. It’s very useful, especially for tuning and debugging</p>
+
+![SparkUI Img](images/sparkui.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # References
 
 [1] https://raw.githubusercontent.com/rameshvunna/PySpark/master/Spark-The%20Definitive%20Guide.pdf
