@@ -199,6 +199,9 @@ state. It’s very useful, especially for tuning and debugging</p>
 
 - [End to End Example](https://github.com/Batuhansaylam26/End-To-End_Example_Spark.git)
 
+- [Spark SQL](https://githu
+b.com/Batuhansaylam26/Spark_SQL.git)
+
 
 
 
