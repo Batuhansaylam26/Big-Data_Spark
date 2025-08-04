@@ -1,3 +1,6 @@
 [submodule "End-To-End_Example_Spark"]
 	path = End-To-End_Example_Spark
 	url = https://github.com/Batuhansaylam26/End-To-End_Example_Spark.git
+[submodule "Spark_SQL"]
+	path = Spark_SQL
+	url = https://github.com/Batuhansaylam26/Spark_SQL.git
